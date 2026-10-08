@@ -5573,7 +5573,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/shiki-php/zipball/b8b0ca32d3a82bc5c533e68ffab96c5d4ec1b9ba",
+                "url": "https://codeload.github.com/spatie/shiki-php/legacy.zip/b8b0ca32d3a82bc5c533e68ffab96c5d4ec1b9ba",
                 "reference": "b8b0ca32d3a82bc5c533e68ffab96c5d4ec1b9ba",
                 "shasum": ""
             },
