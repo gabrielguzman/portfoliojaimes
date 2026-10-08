@@ -1,0 +1,61 @@
+services:
+  portfolio:
+    build: .
+    restart: unless-stopped
+    env_file: .env.production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - portfolio_uploads:/var/www/html/storage/app/public
+      - portfolio_private:/var/www/html/storage/app/private
+    networks:
+      - portfolio_internal
+      - coolify
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      - traefik.http.routers.romina-portfolio.rule=Host(`portfolio.64.23.196.133.sslip.io`)
+      - traefik.http.routers.romina-portfolio.entrypoints=https
+      - traefik.http.routers.romina-portfolio.tls=true
+      - traefik.http.routers.romina-portfolio.tls.certresolver=letsencrypt
+      - traefik.http.routers.romina-portfolio.service=romina-portfolio
+      - traefik.http.services.romina-portfolio.loadbalancer.server.port=80
+      - traefik.http.routers.romina-portfolio-http.rule=Host(`portfolio.64.23.196.133.sslip.io`)
+      - traefik.http.routers.romina-portfolio-http.entrypoints=http
+      - traefik.http.routers.romina-portfolio-http.middlewares=romina-portfolio-redirect
+      - traefik.http.routers.romina-portfolio-http.service=romina-portfolio
+      - traefik.http.routers.romina-portfolio-nip.rule=Host(`portfolio.64.23.196.133.nip.io`)
+      - traefik.http.routers.romina-portfolio-nip.entrypoints=https
+      - traefik.http.routers.romina-portfolio-nip.tls=true
+      - traefik.http.routers.romina-portfolio-nip.tls.certresolver=letsencrypt
+      - traefik.http.routers.romina-portfolio-nip.service=romina-portfolio
+      - traefik.http.routers.romina-portfolio-nip-http.rule=Host(`portfolio.64.23.196.133.nip.io`)
+      - traefik.http.routers.romina-portfolio-nip-http.entrypoints=http
+      - traefik.http.routers.romina-portfolio-nip-http.middlewares=romina-portfolio-redirect
+      - traefik.http.routers.romina-portfolio-nip-http.service=romina-portfolio
+      - traefik.http.middlewares.romina-portfolio-redirect.redirectscheme.scheme=https
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - portfolio_postgres:/var/lib/postgresql/data
+    networks:
+      - portfolio_internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+networks:
+  portfolio_internal:
+  coolify:
+    external: true
+volumes:
+  portfolio_postgres:
+  portfolio_uploads:
+  portfolio_private:
