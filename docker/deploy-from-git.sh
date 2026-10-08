@@ -17,9 +17,18 @@ if ! docker compose --env-file .env.production -f compose.production.yaml up -d 
     exit 1
 fi
 
-if ! curl --fail --silent --show-error --max-time 30 \
-    --resolve portfolio.64.23.196.133.nip.io:443:127.0.0.1 \
-    https://portfolio.64.23.196.133.nip.io/up >/dev/null; then
+healthy=0
+for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+    if curl --fail --silent --max-time 10 \
+        --resolve portfolio.64.23.196.133.nip.io:443:127.0.0.1 \
+        https://portfolio.64.23.196.133.nip.io/up >/dev/null; then
+        healthy=1
+        break
+    fi
+    sleep 5
+done
+
+if [ "$healthy" -ne 1 ]; then
     git reset --hard "$current"
     docker compose --env-file .env.production -f compose.production.yaml up -d --build
     exit 1
