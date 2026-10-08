@@ -43,6 +43,7 @@ export default function ImageViewer({ images, title, selectedIndex, onSelect, de
  const [showDetails,setShowDetails]=useState(false);
  const isOpen = selectedIndex !== null;
  const selected = selectedIndex === null ? null : images[selectedIndex];
+ useEffect(()=>{if(selectedIndex===null||images.length<2)return;const neighbors=[images[(selectedIndex+1)%images.length],images[(selectedIndex-1+images.length)%images.length]];const requests=[...new Set(neighbors.map(image=>image.original || image.url))].map(source=>{const image=new window.Image();image.src=source;return image;});return()=>{requests.forEach(image=>{image.src='';});};},[selectedIndex,images]);
  const step = (offset: number) => {
   if (selectedIndex !== null && images.length > 1) {
    onSelect((selectedIndex + offset + images.length) % images.length);
@@ -72,7 +73,7 @@ export default function ImageViewer({ images, title, selectedIndex, onSelect, de
     step(event.key === 'ArrowRight' ? 1 : -1);
    }
   }} aria-label={`Galería de ${title}`}>
-  <div className="viewer-top"><span>{title}</span><span className="viewer-count" aria-live="polite" aria-atomic="true">{(selectedIndex ?? 0)+1} / {images.length}</span><button onClick={() => onSelect(null)} autoFocus aria-label="Cerrar imagen ampliada">Cerrar ×</button></div>
+  <div className="viewer-top"><span>{title}</span><span className="viewer-count" aria-label={`Imagen ${(selectedIndex ?? 0)+1} de ${images.length}`} aria-live="polite" aria-atomic="true">{(selectedIndex ?? 0)+1} / {images.length}</span><button onClick={() => onSelect(null)} autoFocus aria-label="Cerrar imagen ampliada">Cerrar ×</button></div>
   {selected && <>
    <ViewerImage key={`${selectedIndex}-${selected.original || selected.url}`} image={selected} onSwipe={step}/>
    <div className="viewer-bottom">

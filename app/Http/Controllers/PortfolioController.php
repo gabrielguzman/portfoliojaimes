@@ -8,6 +8,7 @@ use App\Models\SitePage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PortfolioController extends Controller
 {
@@ -34,9 +35,24 @@ class PortfolioController extends Controller
         return Inertia::render('Information', ['profile' => Profile::first(), 'page' => 'about']);
     }
 
-    public function contact()
+    public function contact(): Response
     {
-        return Inertia::render('Information', ['profile' => Profile::first(), 'page' => 'contact', 'contactReceived' => (bool) session('contact_received')]);
+        $slug = request()->query('proyecto');
+        $project = is_string($slug) ? Project::where('published', true)->where('slug', $slug)->first() : null;
+        $context = null;
+
+        if ($project) {
+            $prefix = $project->section === 'teaching'
+                ? 'Propuesta educativa: '
+                : (request()->query('tipo') === 'exposicion' ? 'Propuesta de exposición: ' : 'Consulta por la obra: ');
+            $context = [
+                'title' => $project->title,
+                'url' => route('projects.show', $project->slug),
+                'subject' => mb_substr($prefix.$project->title, 0, 160),
+            ];
+        }
+
+        return Inertia::render('Information', ['profile' => Profile::first(), 'page' => 'contact', 'contactReceived' => (bool) session('contact_received'), 'contactContext' => $context]);
     }
 
     private function collection(string $section)

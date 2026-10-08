@@ -4,8 +4,8 @@ import ContactForm from '../Components/ContactForm';
 import SectionDirectory from '../Components/SectionDirectory';
 import Layout from '../Components/Layout';
 import { useCopy, sectionLabel } from '../content';
-import type { Profile } from '../types';
-export default function Information({profile,page,contactReceived=false}:{profile:Profile|null;contactReceived?:boolean;page:'about'|'contact'}) {
+import type { Profile, ContactContext } from '../types';
+export default function Information({profile,page,contactReceived=false,contactContext=null}:{profile:Profile|null;contactReceived?:boolean;contactContext?:ContactContext|null;page:'about'|'contact'}) {
  const copy=useCopy(page);
  const name=profile?.name || 'Romina Elizabeth Jaimes';
  return <Layout profile={profile} active={page==='about'?'/sobre-mi':'/contacto'}>
@@ -21,7 +21,7 @@ export default function Information({profile,page,contactReceived=false}:{profil
  <section className="contact-editorial"><span className="eyebrow">{sectionLabel(copy.eyebrow)}</span><div className="contact-heading"><h1>{copy.heading}<br/><em>{copy.accent}</em></h1></div><div className="contact-content"><div className="contact-invitation"><p>{copy.description}</p><span>{copy.greeting} <em>{copy.greeting_accent}</em></span>{profile?.location&&<p className="contact-location">{profile.location}</p>}</div><div className="contact-channels"><a className="action-primary contact-write-link" href="#mensaje">Escribir una consulta</a>
  <div className="contact-channel"><span className="channel-label">CORREO</span>{profile?.email?<a href={`mailto:${profile.email}`}><span>{profile.email}</span></a>:<div className="channel-unavailable">{copy.email_unavailable}</div>}<p>{copy.email_description}</p></div>
  <div className="contact-channel"><span className="channel-label">INSTAGRAM</span>{profile?.instagram?<a href={profile.instagram} target="_blank" rel="noreferrer"><span>{copy.instagram_cta}</span></a>:<div className="channel-unavailable">{copy.instagram_unavailable}</div>}<p>{copy.instagram_description}</p></div>
- </div></div></section><ContactForm received={contactReceived}/><div className="contact-signoff"><span>{copy.signoff}</span><Link href="/obra">{copy.return_cta}</Link></div>
+ </div></div></section><ContactForm key={contactContext?.subject || 'general'} received={contactReceived} context={contactContext}/><div className="contact-signoff"><span>{copy.signoff}</span><Link href="/obra">{copy.return_cta}</Link></div>
  </>}
  </Layout>;
 }
