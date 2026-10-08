@@ -1,8 +1,14 @@
 <x-filament-widgets::widget>
  <x-filament::section heading="Administrar el sitio" description="Elegí qué querés actualizar. Los textos y el perfil se publican al guardar; los proyectos pueden mantenerse como borrador.">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:24px">
+   @foreach($tasks as [$url,$title,$description])
+   <a href="{{ $url }}" style="display:block;padding:22px;border:1px solid #9ca3af66;border-radius:12px;border-top:3px solid #64754f">
+    <strong style="font-size:18px">{{ $title }}</strong><p style="margin-top:10px;font-size:14px;line-height:1.6">{{ $description }}</p>
+   </a>
+   @endforeach
+  </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px">
    @foreach([
-    ['/admin/projects/create','Nuevo proyecto','Obra o docencia, portada y galería.'],
     ['/admin/profiles','Perfil y contacto','Biografía, trayectoria, enfoque docente, foto y CV.'],
     ['/admin/site-pages','Páginas y textos','Portada, secciones, menú y buscadores.'],
     ['/admin/disciplines','Disciplinas','Organizá las categorías de tus proyectos.'],

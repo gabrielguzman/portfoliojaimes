@@ -7,6 +7,7 @@ use App\Filament\Resources\Projects\Pages\EditProject;
 use App\Models\Project;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Filament\Notifications\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -62,11 +63,12 @@ class PortfolioTest extends TestCase
         $component = Livewire::test(CreateProject::class)->fillForm([
             'title' => 'Nueva obra', 'slug' => 'nueva-obra', 'description' => 'Descripción', 'category' => 'Pintura', 'year' => 2026,
             'cover' => UploadedFile::fake()->image('obra.jpg', 800, 600), 'published' => false, 'featured' => false, 'sort_order' => 0,
-        ])->call('create')->assertHasNoFormErrors();
+        ])->call('create')->assertHasNoFormErrors()->assertNotified(Notification::make()->success()->title('Proyecto creado')->body('Quedó guardado como borrador. Completá la galería y revisá la vista previa antes de publicar.'));
         $p = Project::where('slug', 'nueva-obra')->firstOrFail();
         Storage::disk('public')->assertExists($p->cover);
         $this->get('/proyectos/nueva-obra')->assertNotFound();
-        Livewire::test(EditProject::class, ['record' => $p->id])->fillForm(['published' => true])->call('save')->assertHasNoFormErrors();
+        Livewire::test(EditProject::class, ['record' => $p->id])->fillForm(['published' => false])->call('save')->assertHasNoFormErrors()->assertNotified(Notification::make()->success()->title('Proyecto guardado')->body('El proyecto sigue como borrador. Podés revisarlo con Vista previa.'));
+        Livewire::test(EditProject::class, ['record' => $p->id])->fillForm(['published' => true])->call('save')->assertHasNoFormErrors()->assertNotified(Notification::make()->success()->title('Proyecto guardado')->body('Los cambios ya están publicados en el sitio.'));
         $this->get('/proyectos/nueva-obra')->assertOk();
     }
 

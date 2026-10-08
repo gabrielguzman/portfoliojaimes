@@ -9,7 +9,7 @@ export default function Gallery({projects,filters=false,activeCategory,collectio
  {projects.some(p=>p.cover?.includes("/demo/"))&&<p className="demo-note">VISTA DE DEMOSTRACIÓN · Estas composiciones ilustran el diseño y no son obras de Romina.</p>}
  <div className={teaching?'gallery teaching-journal':visible.length===1?'gallery gallery-single':'gallery gallery-editorial'}>{visible.map((p,i)=><Link id={`proyecto-${p.slug}`} className="work" aria-labelledby={`work-title-${p.id}`} href={`/proyectos/${p.slug}${suffix}`} viewTransition prefetch key={p.id}>
  <figure className="exhibition-work"><div className="work-image">{p.cover?<img src={p.cover} alt={p.title} loading={i<2?'eager':'lazy'}/>:<div className="empty-cover">{p.title}</div>}</div>
- <figcaption className="exhibition-card"><div className="work-caption"><h3 id={`work-title-${p.id}`}>{p.title}</h3><span className="work-year">{p.year}</span></div>
+ <figcaption className="exhibition-card"><span className="catalog-number">{teaching?'Experiencia':'Obra'} {String(projects.findIndex(work=>work.id===p.id)+1).padStart(2,'0')}</span><div className="work-caption"><h3 id={`work-title-${p.id}`}>{p.title}</h3><span className="work-year">{p.year}</span></div>
  <p className="work-medium">{p.technique || p.category}</p>
  {teaching&&p.excerpt&&<p className="journal-note">{p.excerpt}</p>}
  </figcaption></figure></Link>)}</div>

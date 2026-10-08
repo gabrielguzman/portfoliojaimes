@@ -2,8 +2,11 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\Projects\ProjectResource;
+use App\Filament\Resources\SitePages\SitePageResource;
 use App\Models\Profile;
 use App\Models\Project;
+use App\Models\SitePage;
 use Filament\Widgets\Widget;
 
 class ContentGuide extends Widget
@@ -40,6 +43,12 @@ class ContentGuide extends Widget
             $pending[] = 'Reemplazar las obras de demostración por proyectos reales.';
         }
 
-        return ['pending' => $pending];
+        $home = SitePage::where('key', 'home')->first();
+
+        return ['pending' => $pending, 'tasks' => [
+            [ProjectResource::getUrl('create'), 'Crear proyecto', 'Empezá una obra o una experiencia docente. Podés guardarla como borrador.'],
+            [ProjectResource::getUrl('index'), 'Subir imágenes', 'Elegí un proyecto y usá su acción Imágenes para agregar y ordenar la galería.'],
+            [$home ? SitePageResource::getUrl('edit', ['record' => $home]) : SitePageResource::getUrl('index'), 'Editar inicio', 'Actualizá la presentación, los textos y la selección destacada.'],
+        ]];
     }
 }

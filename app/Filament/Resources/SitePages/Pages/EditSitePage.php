@@ -4,6 +4,7 @@ namespace App\Filament\Resources\SitePages\Pages;
 
 use App\Filament\Resources\SitePages\SitePageResource;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditSitePage extends EditRecord
@@ -22,5 +23,10 @@ class EditSitePage extends EditRecord
         return [
             Action::make('open')->label('Ver página')->url(fn () => $this->getRecord()->path)->openUrlInNewTab(),
         ];
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()->success()->title('Página actualizada')->body('Los textos ya están publicados. Usá Ver página para revisar el resultado.');
     }
 }
