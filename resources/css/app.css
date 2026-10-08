@@ -796,3 +796,82 @@ html{scroll-padding-top:120px}
  html{scroll-behavior:auto}
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Section landmarks and a quieter reading hierarchy. */
+.site-nav a{position:relative}
+.site-nav a[aria-current='page']{font-weight:600;border-bottom-color:var(--action)}
+
+.page-content{animation:quiet-reveal 180ms ease-out}
+.page-content[data-section='obra'] .art-intro{padding-bottom:36px;border-bottom:0}
+.art-intro .collection-index{font-size:11px;letter-spacing:.08em;margin-top:20px}
+.page-content[data-section='docencia']{--section-paper:#edf0e7}
+.page-content[data-section='docencia'] .teaching-intro{background:var(--section-paper);border-bottom:0;padding-bottom:40px}
+.teaching-intro h1 em{color:var(--action)}
+.page-content[data-section='docencia'] .section-directory{background:var(--section-paper)}
+.page-content[data-section='sobre-mi'] .biography-hero{background:#f1eae1}
+.page-content[data-section='sobre-mi'] .biography-body .biography-intro{color:#44382f;max-width:32ch}
+.page-content[data-section='sobre-mi'] .section-directory{background:#f1eae1}
+.section-directory{position:sticky;top:var(--site-header-height,84px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line);gap:28px;overflow-x:auto;scrollbar-width:thin;flex-wrap:nowrap;padding-top:0;padding-bottom:0}
+.section-directory a,.section-directory a:last-child{margin:0;min-height:52px;display:flex;align-items:center;white-space:nowrap;border-bottom:2px solid transparent;font-size:13px;color:var(--muted);transition:color 160ms,border-color 160ms}
+.section-directory a[aria-current='location']{color:var(--action);border-bottom-color:var(--action);font-weight:600}
+#enfoque,#experiencias,#propuestas,#presentacion,#trayectoria,#recorridos{scroll-margin-top:calc(var(--site-header-height,84px) + 70px)}
+.work[id]{scroll-margin-top:calc(var(--site-header-height,84px) + 20px)}
+.section-directory>a,.section-directory>a+a,.section-directory>a:last-child,.section-directory>a+a:last-child{padding:12px 0;border-left:0}
+.work[id]:target .exhibition-card{border-left:2px solid var(--action);padding-left:16px}
+.collection-toolbar{padding-top:0;border-bottom:0;margin-bottom:32px}
+.collection-toolbar .collection-summary{margin-top:0}
+.collection-result{font-size:12px}
+.demo-note{font-size:11px;line-height:1.7;max-width:70ch;color:var(--muted)}
+.work:hover .work-image img{transform:none}
+.project-location{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;font-size:13px;margin-bottom:40px;color:var(--muted)}
+.project-location>a,.project-location>a:last-child{margin:0;min-height:44px;display:inline-flex;align-items:center;color:var(--action);text-decoration:underline;text-underline-offset:5px}
+.project-location>span[aria-current]{overflow-wrap:anywhere;max-width:60%}
+.project-location .project-position{margin:0 0 0 auto;float:none;font-size:11px;letter-spacing:0;white-space:nowrap}
+.project-gallery-heading{border-top:0;padding-top:8px}
+.project-gallery-heading h2{font:500 16px/1.5 var(--font-body)}
+.project-gallery-heading>span{font-size:12px}
+.collection-return{margin-top:8px}
+
+/* The image leads; its record is available on request. */
+.art-viewer{width:min(1200px,96vw);max-height:96dvh;padding:18px 24px 14px}
+.viewer-top{position:sticky;top:-18px;background:var(--paper);z-index:2;gap:16px;padding-bottom:10px}
+.viewer-top>span:first-child{flex:1;font-size:14px}
+.viewer-top .viewer-count{flex:none;letter-spacing:.04em;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.viewer-top button{font-size:13px;min-width:76px}
+.viewer-image-toolbar{padding-top:10px;justify-content:flex-end}
+.viewer-image-toolbar>button{font-size:12px;min-height:40px;padding:8px 12px}
+.art-viewer .viewer-stage{height:clamp(200px,58dvh,720px);margin:10px 0 16px;background:transparent;touch-action:pan-y pinch-zoom}
+.art-viewer .viewer-stage-zoomed{touch-action:auto;background:var(--mount)}
+.viewer-bottom{padding-top:8px;gap:16px}
+.viewer-details-toggle{display:inline-flex;align-items:center;gap:18px;min-height:44px;background:transparent;border:0;padding:8px 0;color:var(--action);font-size:13px;text-align:left}
+.viewer-details-toggle>span{font-size:20px}
+.viewer-controls button{display:flex;align-items:center;justify-content:center;gap:10px;width:auto;min-width:48px;min-height:44px;height:auto;border-color:var(--line);padding:8px 14px;font-size:20px}
+.viewer-controls .viewer-control-label{font-size:12px}
+.viewer-details{padding:16px 0 8px;border-top:1px solid var(--line);animation:quiet-reveal 160ms ease-out}
+.viewer-details>p{font:400 16px/1.7 var(--font-reading);margin:0 0 14px;white-space:pre-line;max-width:70ch}
+.viewer-details dl{display:flex;flex-wrap:wrap;gap:18px 36px;margin:0;font-size:12px}
+.viewer-details dt{color:var(--muted);margin-bottom:5px}.viewer-details dd{margin:0}
+.viewer-thumbnails{margin-top:8px;padding-top:10px;border-top:0;gap:8px}
+.viewer-thumbnails button{flex-basis:64px;height:52px;padding:4px}
+.viewer-hint{font-size:10px;margin-top:6px}
+@media(max-width:760px){
+ .site-nav a[aria-current='page']::after{display:none}
+ .section-directory{gap:24px;padding-left:6%;padding-right:6%}
+ .section-directory a,.section-directory a:last-child{font-size:12px;min-height:50px}
+ .project-location{margin-bottom:24px;gap:8px;font-size:12px}
+ .project-location>span[aria-current]{max-width:55%}
+ .project-location .project-position{width:100%;margin-left:0}
+ .art-viewer{width:100%;max-width:100%;max-height:100dvh;border:0;border-radius:0;padding:12px 16px;margin:auto}
+ .viewer-top{top:-12px;gap:10px}.viewer-top>span:first-child{font-size:12px}
+ .viewer-top button{padding-right:0;min-width:64px}
+ .viewer-image-toolbar{flex-direction:row;align-items:center;padding-top:8px;gap:12px}
+ .viewer-image-toolbar>button{width:auto;flex-shrink:0}
+ .viewer-image-toolbar>span{font-size:11px}
+ .art-viewer .viewer-stage{height:55dvh;min-height:180px;margin:8px 0 12px}
+ .viewer-bottom{align-items:center;gap:8px}
+ .viewer-controls{gap:6px}.viewer-controls button{padding:8px;width:44px;min-width:44px}
+ .viewer-control-label{display:none}
+ .viewer-details-toggle{font-size:12px;gap:12px}
+ .viewer-thumbnails{display:none}
+ .viewer-details dl{gap:18px 24px}
+}
