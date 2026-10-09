@@ -986,3 +986,14 @@ html:active-view-transition .page-content{animation:none}
  .editorial-page-materials .editorial-entry{grid-template-columns:68px minmax(0,1fr);gap:20px;padding:24px 0}.resource-spine{min-height:140px;padding:10px;border-left-width:4px}.resource-spine strong{font-size:32px}.resource-spine span{font-size:8px;letter-spacing:.02em}.editorial-page-materials .editorial-entry-body{padding-right:0}.editorial-page-materials .editorial-entry h3{font-size:25px}.editorial-page-materials .action-primary{position:static;margin-top:20px}.editorial-page-materials .editorial-description{font-size:16px}
  .page-content[data-section='docencia'] .teaching-journal .exhibition-work{grid-template-columns:1fr;gap:20px}.page-content[data-section='docencia'] .teaching-journal .work-image{max-width:230px}.page-content[data-section='docencia'] .teaching-journal .work{padding:24px 0}
 }
+
+/* Header and colophon expose the same destinations without squeezing links. */
+@media(min-width:1201px){.site-nav{gap:18px}.site-nav a,.site-nav a:last-child{font-size:12px}}
+@media(min-width:761px) and (max-width:1200px){
+ .site-header{flex-wrap:wrap;gap:14px;align-items:center}.site-header .brand{margin-right:auto}
+ .menu-toggle{display:block;min-width:76px;min-height:44px;border:1px solid var(--line);border-radius:2px;background:transparent;padding:8px 13px;font-size:12px}
+ .site-nav{display:none;width:100%;flex-direction:column;gap:0;border-top:1px solid var(--line);padding-top:8px}
+ .site-nav.expanded{display:flex;max-height:calc(100dvh - 120px);overflow-y:auto;overscroll-behavior:contain}
+ .site-nav a,.site-nav a:last-child{display:flex;margin:0;padding:12px;min-height:48px;font-size:15px;border-bottom:1px solid var(--line)}
+ .site-nav a[aria-current='page']{background:var(--olive-paper);border-bottom-color:var(--line)}
+}
