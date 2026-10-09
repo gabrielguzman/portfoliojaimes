@@ -11,6 +11,9 @@
    @foreach([
     ['/admin/profiles','Perfil y contacto','Biografía, trayectoria, enfoque docente, foto y CV.'],
     ['/admin/site-pages','Páginas y textos','Portada, secciones, menú y buscadores.'],
+    ['/admin/art-series','Series y colecciones','Texto curatorial y selección de obras.'],
+    ['/admin/portfolio-events','Exposiciones y agenda','Próximas actividades y archivo de encuentros.'],
+    ['/admin/teaching-materials','Materiales docentes','Guías, destinatarios y archivos PDF.'],
     ['/admin/disciplines','Disciplinas','Organizá las categorías de tus proyectos.'],
     ['/admin/contact-messages','Consultas','Leé los mensajes del sitio y gestioná su seguimiento.'],
    ] as [$url,$title,$description])

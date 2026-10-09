@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArtSeries;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\SitePage;
@@ -100,12 +101,18 @@ class PortfolioController extends Controller
         if ($category !== $p->category) {
             $category = null;
         }
+        $seriesSlug = request()->query('serie');
+        $series = is_string($seriesSlug) ? ArtSeries::where('published', true)->where('slug', $seriesSlug)->whereHas('projects', fn ($query) => $query->where('projects.id', $p->id))->first() : null;
         $collection = $category ? $ordered->where('category', $category)->values() : $ordered;
+        if ($series) {
+            $ids = $series->projects()->where('published', true)->where('section', 'art')->pluck('projects.id');
+            $collection = $ids->map(fn ($id) => $ordered->firstWhere('id', $id))->filter()->values();
+        }
         $position = $collection->search(fn ($item) => $item->id === $p->id);
-        $suffix = $category ? '?'.http_build_query(['disciplina' => $category]) : '';
+        $suffix = $series ? '?'.http_build_query(['serie' => $series->slug]) : ($category ? '?'.http_build_query(['disciplina' => $category]) : '');
         $card = fn ($item) => $item ? ['title' => $item->title, 'url' => route('projects.show', $item->slug).$suffix] : null;
 
-        return Inertia::render('Project', ['collectionUrl' => route($p->section === 'teaching' ? 'teaching' : 'artwork').$suffix,
+        return Inertia::render('Project', ['collectionLabel' => $series?->title, 'collectionUrl' => ($series ? route('series.show', $series->slug) : route($p->section === 'teaching' ? 'teaching' : 'artwork').$suffix),
             'previous' => ! $preview && $position !== false && $position > 0 ? $card($collection[$position - 1]) : null,
             'next' => ! $preview && $position !== false ? $card($collection->get($position + 1)) : null,
             'position' => ! $preview && $position !== false ? $position + 1 : null,

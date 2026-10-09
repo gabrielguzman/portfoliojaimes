@@ -6,11 +6,11 @@ import Layout from '../Components/Layout';
 import type { Profile } from '../types';
 type Image = {original?:string;url:string;caption:string|null;alt:string};
 type Project = {section:string;title:string;description:string;category:string;year:number;technique:string|null;dimensions:string|null;cover:string|null;cover_original:string|null;images:Image[]};
-export default function ProjectPage({project:p,profile,preview,collectionUrl,previous,next,position,total}:{project:Project;profile:Profile|null;preview:boolean;collectionUrl:string;previous:{title:string;url:string}|null;next:{title:string;url:string}|null;position:number|null;total:number}) {
+export default function ProjectPage({project:p,profile,preview,collectionUrl,previous,next,position,total,collectionLabel:seriesLabel}:{project:Project;profile:Profile|null;preview:boolean;collectionUrl:string;previous:{title:string;url:string}|null;next:{title:string;url:string}|null;position:number|null;total:number;collectionLabel?:string|null}) {
  const images:Image[]=p.images.length?p.images:(p.cover?[{url:p.cover,original:p.cover_original || p.cover,caption:p.title,alt:p.title}]:[]);
  const [selectedIndex,setSelectedIndex]=useState<number|null>(null);
  const teaching=p.section==='teaching';
- const collectionLabel=p.section==='teaching'?'Docencia':'Obra';
+ const collectionLabel=seriesLabel || (p.section==='teaching'?'Docencia':'Obra');
  const slug=decodeURIComponent(usePage().url.split('?')[0].split('/').pop() || '');
  const contactUrl=`/contacto?proyecto=${encodeURIComponent(slug)}`;
  const returnUrl=collectionUrl+(!preview?`#proyecto-${slug}`:'');

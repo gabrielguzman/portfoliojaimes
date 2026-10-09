@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\EditorialController;
 use App\Http\Controllers\PortfolioController;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,11 @@ Route::get('/proyectos/{slug}', [PortfolioController::class, 'show'])->name('pro
 
 Route::get('/vista-previa/{project}', [PortfolioController::class, 'preview'])->name('projects.preview');
 
+Route::get('/series', [EditorialController::class, 'series'])->name('series');
+Route::get('/series/{slug}', [EditorialController::class, 'showSeries'])->name('series.show');
+Route::get('/agenda', [EditorialController::class, 'agenda'])->name('agenda');
+Route::get('/docencia/materiales', [EditorialController::class, 'materials'])->name('materials');
+Route::get('/docencia/materiales/{slug}/descargar', [EditorialController::class, 'download'])->name('materials.download');
 Route::get('/obra', [PortfolioController::class, 'artwork'])->name('artwork');
 Route::get('/docencia', [PortfolioController::class, 'teaching'])->name('teaching');
 Route::get('/sobre-mi', [PortfolioController::class, 'about'])->name('about');

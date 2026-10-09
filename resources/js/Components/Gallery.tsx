@@ -1,8 +1,8 @@
 import { Link } from '@inertiajs/react';
 import type { Work } from '../types';
-export default function Gallery({projects,filters=false,activeCategory,collectionHref='/obra',teaching=false}:{projects:Work[];filters?:boolean;activeCategory?:string|null;collectionHref?:string;teaching?:boolean}) {
+export default function Gallery({projects,filters=false,activeCategory,collectionHref='/obra',teaching=false,seriesSlug}:{projects:Work[];filters?:boolean;activeCategory?:string|null;collectionHref?:string;teaching?:boolean;seriesSlug?:string}) {
  const category=activeCategory || 'Todas';
- const suffix=category==='Todas'?'':`?disciplina=${encodeURIComponent(category)}`;
+ const suffix=seriesSlug?`?serie=${encodeURIComponent(seriesSlug)}`:category==='Todas'?'':`?disciplina=${encodeURIComponent(category)}`;
  const categories=['Todas',...new Set(projects.map(p=>p.category))];
  const visible=projects.filter(p=>category==='Todas'||p.category===category);
  return <>{filters&&<div className="collection-toolbar"><div className="filters" aria-label="Filtrar por disciplina">{categories.map(c=><Link key={c} href={collectionHref+(c==='Todas'?'':`?disciplina=${encodeURIComponent(c)}`)} preserveScroll aria-current={category===c?'true':undefined} className={category===c?'active':''}>{c}{' '}<span>{c==='Todas'?projects.length:projects.filter(p=>p.category===c).length}</span></Link>)}</div><div className="collection-summary"><p className="collection-result" role="status">{visible.length} {visible.length===1?'proyecto':'proyectos'}{category!=='Todas'?` en ${category}`:' en la colección'}</p>{category!=='Todas'&&<Link href={collectionHref} preserveScroll className="collection-reset">Ver todas las disciplinas <span aria-hidden="true">×</span></Link>}</div></div>}
