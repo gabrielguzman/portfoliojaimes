@@ -1,0 +1,11 @@
+{
+  "tool": "built-in imagegen",
+  "purpose": "Fictional portfolio showcase",
+  "prompts": {
+    "painting.png": "Photorealistic museum documentation of an imaginary acrylic painting on textured paper. Vertical 3:4 abstract landscape with ochre, rust clay, sage, charcoal and pale cream washes. Show the entire sheet, its tactile edges and pigment layers. No signature, frame or text.",
+    "collage.png": "Photorealistic documentation of a contemporary handmade torn-paper collage. Vertical 3:4 composition with gray-blue, sienna and ivory overlapping planes and graphite marks. Visible paper fibers and tactile edges. Entire sheet, no signature, frame or text.",
+    "drawing.png": "Photorealistic documentation of an imaginary graphite and ink drawing on ivory paper. Horizontal 4:3 wandering thin lines, rubbed gray areas and charcoal marks, with generous empty space. Entire sheet, no signature, frame or text.",
+    "studio.png": "Natural editorial photograph of a visual arts studio worktable, horizontal 3:2. Sketchbook, charcoal, paper color studies, pigment, brushes, ceramic jar, linen and palette, with an easel in the background. Soft daylight, tactile materials, no people or readable text.",
+    "textile.png": "Photorealistic documentation of a contemporary handmade woven linen artwork. Vertical 3:4, undyed yarn with terracotta and indigo, irregular knots, open spaces and frayed fibers. Entire artwork, no frame or text."
+  }
+}
