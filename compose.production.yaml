@@ -34,6 +34,15 @@ services:
       - traefik.http.routers.romina-portfolio-nip-http.entrypoints=http
       - traefik.http.routers.romina-portfolio-nip-http.middlewares=romina-portfolio-redirect
       - traefik.http.routers.romina-portfolio-nip-http.service=romina-portfolio
+      - traefik.http.routers.romina-portfolio-domain.rule=Host(`rominajaimes.com.ar`) || Host(`www.rominajaimes.com.ar`)
+      - traefik.http.routers.romina-portfolio-domain.entrypoints=https
+      - traefik.http.routers.romina-portfolio-domain.tls=true
+      - traefik.http.routers.romina-portfolio-domain.tls.certresolver=letsencrypt
+      - traefik.http.routers.romina-portfolio-domain.service=romina-portfolio
+      - traefik.http.routers.romina-portfolio-domain-http.rule=Host(`rominajaimes.com.ar`) || Host(`www.rominajaimes.com.ar`)
+      - traefik.http.routers.romina-portfolio-domain-http.entrypoints=http
+      - traefik.http.routers.romina-portfolio-domain-http.middlewares=romina-portfolio-redirect
+      - traefik.http.routers.romina-portfolio-domain-http.service=romina-portfolio
       - traefik.http.middlewares.romina-portfolio-redirect.redirectscheme.scheme=https
   postgres:
     image: postgres:17-alpine
